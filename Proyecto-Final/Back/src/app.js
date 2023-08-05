@@ -1,12 +1,14 @@
 const express = require("express");
-const server = express();
 const routes = require("./routes/indexRoutes");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-const { conn } = require("../src/database");
 const cors = require("cors");
-const {transporter} =require("./nodemailer")
+
+
+require('./database.js');
+const server = express();
+server.name = 'API';
 
 //midleweares
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
@@ -28,17 +30,8 @@ server.use((req, res, next) => {
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
 
-//Routes
-server.use(routes);
+server.use("/", routes);
 
-// Syncing all the models at once.
-conn.sync({ alter:true }).then(() => {
-  server.listen(3002, () => {
-    console.log("Server on port 3002");
-  });
-})
-.then(async () => {
-  await transporter.verify().then(() => {
-    console.log("Email service: ✅");
-  });
-})
+
+module.exports = server;
+

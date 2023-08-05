@@ -1,8 +1,10 @@
 require("dotenv").config();
+require('pg');
 const { Sequelize } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_BASE } = process.env;
+// const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_BASE } = process.env;
+const { DB_DEPLOY } = process.env;
 const TypePackageModel = require("./models/TypePackage");
 const PackageModel = require("./models/Package");
 const AirlineModel = require("./models/Airline");
@@ -23,10 +25,25 @@ const ActivityCommentModels = require("./models/ActivityComment");
 const ItineraryModels = require("./models/Itinerary");
 const PaymentDetailModels = require("./models/PaymentDetail");
 
+// const sequelize = new Sequelize(
+//   `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_BASE}`,
+//   { logging: false, native: false }
+// );
+
 const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_BASE}`,
-  { logging: false, native: false }
+  DB_DEPLOY,
+  { logging: false,
+    native: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false, // Solo para desarrollo local. En producción, configúralo correctamente.
+      },
+    },
+  }
 );
+
+
 
 TypePackageModel(sequelize);
 PackageModel(sequelize);
