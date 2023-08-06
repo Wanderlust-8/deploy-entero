@@ -106,7 +106,7 @@ function Detail() {
     // console.log("item desde actvity", parametro);
     if (idCart) {
       const response1 = await fetch(
-        `http://localhost:3002/shoppingCar/${idCart}`,
+        `https://deploy-entero.vercel.app/shoppingCar/${idCart}`,
         {
           method: "PUT",
           headers: {
