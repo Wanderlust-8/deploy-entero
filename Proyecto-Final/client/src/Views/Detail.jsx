@@ -105,7 +105,7 @@ function Detail() {
   async function guardarEnBDD(parametro) {
     // console.log("item desde actvity", parametro);
     if (idCart) {
-      const response1 = await fetch(
+       await fetch(
         `https://deploy-entero.vercel.app/shoppingCar/${idCart}`,
         {
           method: "PUT",
