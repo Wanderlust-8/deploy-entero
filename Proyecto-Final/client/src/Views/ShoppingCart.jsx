@@ -133,7 +133,6 @@ const ShoppingCart = () => {
                   $ {(calculateTotal(items) * 1.1).toFixed(2)}
                 </span>
               </div>
-              <Link to="/checkout">
                 <button
                   onClick={() => {
                     handlePayment();
@@ -143,7 +142,6 @@ const ShoppingCart = () => {
                   <AiOutlineCheckCircle className="mr-2" />
                   Completar el pago
                 </button>
-              </Link>
             </div>
           </div>
         </div>
